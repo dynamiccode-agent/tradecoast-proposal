@@ -420,7 +420,7 @@
                 <div class="pricing-total">
                     <div class="pricing-row">
                         <span class="pricing-total-label">Total Investment</span>
-                        <span class="pricing-total-value">$18,500 AUD</span>
+                        <span class="pricing-total-value">$18,000 + GST</span>
                     </div>
                 </div>
             </div>
@@ -435,8 +435,9 @@
                 <h2>Payment Schedule</h2>
                 <div class="info-card">
                     <ul>
-                        <li><strong>50% deposit:</strong> $9,250 AUD on project commencement</li>
-                        <li><strong>50% balance:</strong> $9,250 AUD on go-live and handover</li>
+                        <li><strong>50% deposit:</strong> $9,000 + GST on project commencement</li>
+                        <li><strong>50% balance:</strong> $9,000 + GST on go-live and handover</li>
+                        <li><strong>Payment plan available:</strong> A payment plan can be arranged if preferred — just let us know.</li>
                     </ul>
                 </div>
             </div>
@@ -469,7 +470,7 @@
             </div>
             <h1>Agreement</h1>
             <div class="section">
-                <p>By signing below, you agree to the development of the Integrated Venue Management System and Website for Trade Coast Hotel as outlined in this proposal, at a total investment of <strong>$18,500 AUD</strong>, inclusive of 6 months post-launch management.</p>
+                <p>By signing below, you agree to the development of the Integrated Venue Management System and Website for Trade Coast Hotel as outlined in this proposal, at a total investment of <strong>$18,000 AUD + GST</strong>, inclusive of 6 months post-launch management.</p>
             </div>
             <div class="signature-section">
                 <h3>Client Signature</h3>
@@ -492,8 +493,9 @@
                 <h3>Terms & Conditions</h3>
                 <div class="info-card">
                     <ul style="font-size: 9pt;">
-                        <li>Project commences upon receipt of 50% deposit ($9,250 AUD)</li>
-                        <li>Balance of $9,250 AUD due on go-live and completion of handover</li>
+                        <li>Project commences upon receipt of 50% deposit ($9,000 + GST)</li>
+                        <li>Balance of $9,000 + GST due on go-live and completion of handover</li>
+                        <li>A payment plan can be arranged if preferred</li>
                         <li>6 months of management and updates included from go-live date</li>
                         <li>After 6 months, the system is self-managed. Ongoing support can be negotiated separately</li>
                         <li>Full source code and IP transferred to client upon final payment</li>
@@ -577,7 +579,7 @@
         sendWebhook('Proposal Signed', 'Trade Coast Hotel proposal has been signed');
     }
     function sendWebhook(action, description) {
-        fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [{ title: `Trade Coast Hotel - ${action}`, description, color: 0x2D4A6B, fields: [{ name: 'Client', value: 'Trade Coast Hotel / Value Liquor Group', inline: true }, { name: 'Project', value: 'Integrated Venue Management System', inline: true }, { name: 'Investment', value: '$18,500 AUD', inline: true }], timestamp: new Date().toISOString() }] }) }).catch(() => {});
+        fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [{ title: `Trade Coast Hotel - ${action}`, description, color: 0x2D4A6B, fields: [{ name: 'Client', value: 'Trade Coast Hotel / Value Liquor Group', inline: true }, { name: 'Project', value: 'Integrated Venue Management System', inline: true }, { name: 'Investment', value: '$18,000 + GST', inline: true }], timestamp: new Date().toISOString() }] }) }).catch(() => {});
     }
 </script>
 </body>
