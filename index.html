@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Coast Hotel × Dynamic Code — Venue Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @page { size: A4; margin: 0; }
+        @media print {
+            body { margin: 0; padding: 0; background: #fff; }
+            .page { margin: 0; box-shadow: none; page-break-after: always; page-break-inside: avoid; }
+            .page:last-child { page-break-after: avoid; }
+            .no-print { display: none !important; }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-900: #262626;
+            --gray-700: #404040;
+            --gray-500: #6b6b6b;
+            --gray-300: #a3a3a3;
+            --gray-100: #f5f5f5;
+            --white: #ffffff;
+            --accent: #2D4A6B;
+            --accent-dark: #1D3250;
+            --accent-light: #eef2f7;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--gray-100);
+            color: var(--black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 210mm; margin: 0 auto; padding: 20px; }
+        .page {
+            width: 210mm; min-height: 297mm; background: white;
+            margin: 0 auto 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative; overflow: hidden;
+        }
+        .page-inner { padding: 15mm 20mm; position: relative; z-index: 2; }
+        .cover { display: flex; flex-direction: column; justify-content: space-between; min-height: 267mm; }
+        .cover-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36mm; }
+        .logo-img { height: 28px; width: auto; opacity: 0.9; }
+        .logo-img.client-logo { height: 70px; width: auto; object-fit: contain; }
+        .cover-main { flex: 1; }
+        .cover-eyebrow { font-size: 11pt; font-weight: 500; text-transform: uppercase; letter-spacing: 1.2px; color: var(--gray-500); margin-bottom: 8mm; }
+        .cover-title { font-size: 42pt; font-weight: 700; line-height: 1.1; margin-bottom: 6mm; color: var(--black); }
+        .cover-subtitle { font-size: 17pt; font-weight: 500; color: var(--gray-700); margin-bottom: 4mm; }
+        .cover-description { font-size: 11pt; line-height: 1.7; color: var(--gray-500); max-width: 140mm; }
+        .cover-footer {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 8mm; padding-top: 8mm; border-top: 1px solid var(--gray-300);
+        }
+        .cover-footer-item { display: flex; flex-direction: column; gap: 2mm; }
+        .cover-footer-label { font-size: 9pt; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-500); }
+        .cover-footer-value { font-size: 11pt; font-weight: 600; color: var(--black); }
+        .accent-bar {
+            position: absolute; top: 0; left: 0; width: 5mm; height: 100%;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+        }
+        .page-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12mm; padding-bottom: 3mm; border-bottom: 1px solid var(--gray-300);
+        }
+        .page-header-logo { height: 22px; width: auto; opacity: 0.7; }
+        .page-header-title { font-size: 9pt; font-weight: 500; color: var(--gray-500); }
+        h1 { font-size: 30pt; font-weight: 700; line-height: 1.2; margin-bottom: 8mm; color: var(--black); }
+        h2 { font-size: 15pt; font-weight: 600; margin-bottom: 4mm; color: var(--black); }
+        h3 { font-size: 12pt; font-weight: 600; margin-bottom: 3mm; color: var(--black); }
+        p { font-size: 11pt; line-height: 1.7; color: var(--gray-700); margin-bottom: 3mm; }
+        ul { list-style: none; padding: 0; }
+        ul li { font-size: 11pt; line-height: 1.8; color: var(--gray-700); padding-left: 5mm; position: relative; margin-bottom: 2mm; }
+        ul li:before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+        .section { margin-bottom: 7mm; }
+        .info-card { background: var(--gray-100); border-left: 3px solid var(--accent); padding: 5mm; border-radius: 2mm; margin-bottom: 5mm; }
+        .info-card ul { margin: 0; }
+        .modules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-bottom: 7mm; }
+        .module-card { background: var(--accent-light); padding: 5mm; border-radius: 2mm; border-top: 2px solid var(--accent); }
+        .module-icon { font-size: 20pt; margin-bottom: 2mm; }
+        .module-title { font-size: 11pt; font-weight: 700; margin-bottom: 2mm; color: var(--black); }
+        .module-desc { font-size: 9.5pt; line-height: 1.55; color: var(--gray-700); }
+        /* Pricing */
+        .pricing-card { background: var(--black); color: var(--white); padding: 8mm; border-radius: 3mm; margin-bottom: 6mm; }
+        .pricing-row { display: flex; justify-content: space-between; align-items: center; padding: 3mm 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .pricing-row:last-child { border-bottom: none; }
+        .pricing-label { font-size: 11pt; font-weight: 500; color: rgba(255,255,255,0.8); }
+        .pricing-value { font-size: 12pt; font-weight: 600; color: var(--white); }
+        .pricing-total { margin-top: 4mm; padding-top: 4mm; border-top: 2px solid var(--accent); }
+        .pricing-total-label { font-size: 14pt; font-weight: 600; color: rgba(255,255,255,0.8); }
+        .pricing-total-value { font-size: 24pt; font-weight: 700; color: var(--white); }
+        /* Signature */
+        .signature-section { margin-top: 8mm; padding: 8mm; background: var(--gray-100); border-radius: 3mm; }
+        .signature-canvas-wrapper { background: white; border: 2px dashed var(--gray-300); border-radius: 2mm; padding: 8mm; margin-bottom: 4mm; min-height: 30mm; }
+        .signature-placeholder { text-align: center; color: var(--gray-500); font-size: 10pt; padding: 20mm 0; }
+        #signatureCanvas { border: none; cursor: crosshair; width: 100%; height: 100px; }
+        .signature-buttons { display: flex; gap: 3mm; margin-bottom: 4mm; }
+        .btn { padding: 3mm 6mm; border: none; border-radius: 2mm; font-size: 10pt; font-weight: 600; cursor: pointer; }
+        .btn-primary { background: var(--black); color: var(--white); }
+        .btn-secondary { background: var(--gray-300); color: var(--black); }
+        .signature-info { font-size: 9pt; color: var(--gray-500); line-height: 1.6; }
+        .page-number { position: absolute; bottom: 15mm; right: 20mm; font-size: 9pt; font-weight: 500; color: var(--gray-500); }
+        /* Login */
+        #passwordScreen {
+            position: fixed; inset: 0;
+            background: linear-gradient(135deg, #f0f3f7 0%, #e2eaf3 100%);
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .password-box { background: white; padding: 48px 40px; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); text-align: center; max-width: 420px; width: 90%; }
+        .password-logo { font-size: 18px; font-weight: 700; margin-bottom: 32px; color: var(--black); letter-spacing: -0.5px; }
+        .password-box h2 { margin: 0 0 8px; font-size: 28px; font-weight: 700; color: var(--black); letter-spacing: -0.5px; }
+        .password-box p { margin: 0 0 32px; font-size: 14px; color: var(--gray-500); line-height: 1.5; }
+        .password-input-wrapper { position: relative; margin-bottom: 24px; }
+        .password-box input { width: 100%; padding: 12px 44px 12px 16px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 16px; background: #f9fafb; color: var(--black); outline: none; box-sizing: border-box; transition: all 0.2s; }
+        .password-box input:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,74,107,0.1); }
+        .password-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 6px; opacity: 0.5; color: var(--gray-500); display: flex; align-items: center; }
+        .password-toggle:hover { opacity: 0.8; }
+        .eye-icon { width: 18px; height: 18px; }
+        .password-submit-btn { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .password-submit-btn:hover { background: var(--accent-dark); }
+        .password-error { color: #dc2626; font-size: 13px; margin-top: 12px; }
+        @media screen and (max-width: 900px) {
+            .container { padding: 10px; }
+            .page { width: 100%; min-height: auto; margin-bottom: 10px; }
+            .page-inner { padding: 8mm 10mm; }
+            .cover-title { font-size: 28pt; }
+            .modules-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="passwordScreen">
+    <div class="password-box">
+        <div class="password-logo">Dynamic Code</div>
+        <h2>Client Portal</h2>
+        <p>Access your proposals, projects, and deliverables</p>
+        <div class="password-input-wrapper">
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button class="password-toggle" id="passwordToggle" type="button" onclick="togglePasswordVisibility()" aria-label="Show password">
+                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </button>
+        </div>
+        <button onclick="checkPassword()" class="password-submit-btn">Sign in</button>
+        <div id="passwordError" class="password-error"></div>
+    </div>
+</div>
+
+<div class="container" id="proposalContent" style="display: none;">
+
+    <!-- PAGE 1: COVER -->
+    <div class="page" id="cover">
+        <div class="page-inner cover">
+            <div class="cover-header">
+                <img src="tradecoast-logo.png" alt="Trade Coast Hotel" class="logo-img client-logo">
+                <img src="dynamiccode-logo.svg" alt="Dynamic Code" class="logo-img">
+            </div>
+            <div class="cover-main">
+                <p class="cover-eyebrow">Web Application Proposal</p>
+                <h1 class="cover-title">Integrated Venue<br>Management<br>System</h1>
+                <p class="cover-subtitle">Hotel, Bistro, Events & Shuttle — All in One Platform</p>
+                <p class="cover-description">A fully integrated, custom-built venue management system for Trade Coast Hotel — covering hotel bookings, online ordering, table reservations, shuttle scheduling, CRM, and a brand new modern website, all managed from a single admin portal.</p>
+            </div>
+            <div class="cover-footer">
+                <div class="cover-footer-item">
+                    <span class="cover-footer-label">Prepared For</span>
+                    <span class="cover-footer-value">Trade Coast Hotel<br>Value Liquor Group</span>
+                </div>
+                <div class="cover-footer-item">
+                    <span class="cover-footer-label">Prepared By</span>
+                    <span class="cover-footer-value">Dynamic Code</span>
+                </div>
+                <div class="cover-footer-item">
+                    <span class="cover-footer-label">Date</span>
+                    <span class="cover-footer-value" id="currentDate"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: SYSTEM OVERVIEW -->
+    <div class="page">
+        <div class="accent-bar"></div>
+        <div class="page-inner">
+            <div class="page-header">
+                <img src="dynamiccode-logo.svg" alt="Dynamic Code" class="page-header-logo">
+                <span class="page-header-title">Trade Coast Hotel × Dynamic Code</span>
+            </div>
+            <h1>System Overview</h1>
+            <div class="section">
+                <p>This is not a collection of separate tools. Dynamic Code will design and build one integrated platform where every part of Trade Coast Hotel's operations connects — hotel, bistro, shuttle, and guest management — all accessible from a single, role-based admin portal.</p>
+            </div>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <div class="module-icon">🏨</div>
+                    <div class="module-title">Hotel Booking Management</div>
+                    <div class="module-desc">Room availability, booking requests, confirmations, guest profiles, and card tokenisation for damage coverage. Admin can manage all bookings, modify dates, and process charges.</div>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">🍽️</div>
+                    <div class="module-title">Online Ordering Management</div>
+                    <div class="module-desc">Full menu management with item toggling, pricing, categories, and descriptions. Orders flow directly to the backend. Admin can process billing, refunds, and partial refunds.</div>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">📋</div>
+                    <div class="module-title">Table Booking Management</div>
+                    <div class="module-desc">Guest-facing table reservation system with date, time, and party size selection. Email confirmations sent automatically on request and confirmation.</div>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">🚌</div>
+                    <div class="module-title">Shuttle Booking Management</div>
+                    <div class="module-desc">Scheduled shuttle runs with seat-based capacity. Guests book seats on specific runs. Admin manages schedules, capacity, and passenger lists with real-time visibility.</div>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">👥</div>
+                    <div class="module-title">Contact Management (CRM)</div>
+                    <div class="module-desc">Centralised guest profiles built automatically from bookings and orders. Full history of stays, orders, and shuttle usage — enabling personalised communication and follow-up.</div>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">🌐</div>
+                    <div class="module-title">Brand New Website</div>
+                    <div class="module-desc">A modern, mobile-responsive website for Trade Coast Hotel — beautifully designed and fully integrated with all booking and ordering modules. Staging: tradecoasthotel.com, Production: tradecoasthotel.com.au</div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>One Platform. Every Touchpoint.</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>All modules share a single database — guest data, bookings, and orders are connected</li>
+                        <li>Email confirmations sent automatically: Request Received and Booking Confirmed</li>
+                        <li>Card tokenisation for hotel guests: charge for damages or future orders without re-entering card details</li>
+                        <li>Role-based team access: staff see only what they need, nothing more</li>
+                    </ul>
+                </div>
+            </div>
+            <span class="page-number">02</span>
+        </div>
+    </div>
+
+    <!-- PAGE 3: MODULE DETAIL -->
+    <div class="page">
+        <div class="accent-bar"></div>
+        <div class="page-inner">
+            <div class="page-header">
+                <img src="dynamiccode-logo.svg" alt="Dynamic Code" class="page-header-logo">
+                <span class="page-header-title">Trade Coast Hotel × Dynamic Code</span>
+            </div>
+            <h1>Module Detail</h1>
+
+            <div class="section">
+                <h2>Hotel Booking Management</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Room availability calendar with real-time capacity management</li>
+                        <li>Guest booking flow: room selection, dates, guest details, card tokenisation</li>
+                        <li>Automated email confirmations: Request Received and Booking Confirmed</li>
+                        <li>Card tokenisation: hotel can charge for damages or add-ons post-stay without re-entering card details</li>
+                        <li>Admin: view, modify, cancel, and manage all hotel bookings from one dashboard</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Online Ordering Management</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Guest-facing menu with categories, item descriptions, pricing, and images</li>
+                        <li>Admin can add, edit, remove menu items and toggle availability on/off in real time</li>
+                        <li>Orders processed and routed to admin dashboard with live notifications</li>
+                        <li>Full billing management: charge, refund, and partial refund capability</li>
+                        <li>Card tokenisation: returning guests can reorder without re-entering payment details</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Table Booking Management</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Guest-facing reservation form: date, time, party size, and contact details</li>
+                        <li>Admin manages seating capacity and confirms or adjusts reservations</li>
+                        <li>Automated email: Request Received on submission, Booking Confirmed on approval</li>
+                        <li>Table availability managed in the admin portal with a clear calendar view</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Shuttle Booking Management</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Admin creates scheduled shuttle runs with fixed routes, times, and seat capacity</li>
+                        <li>Guests select available runs and confirm their seat — no overbooking</li>
+                        <li>Automated booking confirmations via email</li>
+                        <li>Admin views passenger manifests per run with real-time seat availability</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Contact Management (CRM)</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Guest profiles created automatically from any booking or order</li>
+                        <li>Full activity history: hotel stays, table bookings, food orders, shuttle trips</li>
+                        <li>Enables personalised follow-up, loyalty communications, and guest insights</li>
+                        <li>Searchable and exportable contact database for the team</li>
+                    </ul>
+                </div>
+            </div>
+            <span class="page-number">03</span>
+        </div>
+    </div>
+
+    <!-- PAGE 4: ADMIN PORTAL & PERMISSIONS -->
+    <div class="page">
+        <div class="accent-bar"></div>
+        <div class="page-inner">
+            <div class="page-header">
+                <img src="dynamiccode-logo.svg" alt="Dynamic Code" class="page-header-logo">
+                <span class="page-header-title">Trade Coast Hotel × Dynamic Code</span>
+            </div>
+            <h1>Admin Portal &<br>Team Permissions</h1>
+
+            <div class="section">
+                <p>The admin portal is the operational heart of the system. Every team member logs in to one place — but each person sees only what is relevant to their role.</p>
+            </div>
+
+            <div class="section">
+                <h2>Role-Based Access Control</h2>
+                <div class="modules-grid" style="margin-bottom: 5mm;">
+                    <div class="module-card">
+                        <div class="module-icon">🔑</div>
+                        <div class="module-title">Full Access (Owner / Manager)</div>
+                        <div class="module-desc">Complete visibility and control across all modules: hotel, bistro, shuttle, CRM, billing, and reporting. User management and permission assignment.</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-icon">🏨</div>
+                        <div class="module-title">Hotel Staff</div>
+                        <div class="module-desc">Access to hotel bookings, guest check-ins, room management, and card charge/refund functionality. No access to bistro or shuttle modules.</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-icon">🍽️</div>
+                        <div class="module-title">Bistro Staff</div>
+                        <div class="module-desc">Access to online orders, table bookings, menu management, and order billing. No access to hotel or shuttle modules.</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-icon">🚌</div>
+                        <div class="module-title">Shuttle Coordinator</div>
+                        <div class="module-desc">Access to shuttle run schedules, passenger bookings, and capacity management only.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Admin Portal Features</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Single login, role-filtered dashboard for every team member</li>
+                        <li>Add, edit, and deactivate team members with specific permission sets</li>
+                        <li>Full audit trail: see who changed what and when across the system</li>
+                        <li>Notification centre for new bookings, orders, and alerts</li>
+                        <li>Reporting across all modules: occupancy, revenue, covers, and shuttle utilisation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Website Integration</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Brand new modern website built and fully integrated with all booking modules</li>
+                        <li>Guests can book rooms, order food, reserve tables, and book shuttle from the website</li>
+                        <li>Mobile-optimised and fast — built for the modern hospitality guest</li>
+                        <li>Staging environment: tradecoasthotel.com</li>
+                        <li>Production launch: tradecoasthotel.com.au</li>
+                        <li>Backend admin login: admin@tradecoasthotel.com.au</li>
+                    </ul>
+                </div>
+            </div>
+            <span class="page-number">04</span>
+        </div>
+    </div>
+
+    <!-- PAGE 5: INVESTMENT & TERMS -->
+    <div class="page">
+        <div class="accent-bar"></div>
+        <div class="page-inner">
+            <div class="page-header">
+                <img src="dynamiccode-logo.svg" alt="Dynamic Code" class="page-header-logo">
+                <span class="page-header-title">Trade Coast Hotel × Dynamic Code</span>
+            </div>
+            <h1>Investment</h1>
+
+            <div class="pricing-card">
+                <div class="pricing-row">
+                    <span class="pricing-label">Integrated Venue Management System</span>
+                    <span class="pricing-value">Included</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-label">Brand New Modern Website</span>
+                    <span class="pricing-value">Included</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-label">6 Months Management & Updates</span>
+                    <span class="pricing-value">Included</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-label">Team Training & Handover</span>
+                    <span class="pricing-value">Included</span>
+                </div>
+                <div class="pricing-total">
+                    <div class="pricing-row">
+                        <span class="pricing-total-label">Total Investment</span>
+                        <span class="pricing-total-value">$18,500 AUD</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="info-card">
+                    <p style="margin: 0;"><strong>Note:</strong> This is a one-time investment. The 6-month management and updates period is fully included. After 6 months, the system becomes self-managed by the Trade Coast Hotel team. If ongoing support or additional development is required beyond this period, this can be negotiated based on needs at that time.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Payment Schedule</h2>
+                <div class="info-card">
+                    <ul>
+                        <li><strong>50% deposit:</strong> $9,250 AUD on project commencement</li>
+                        <li><strong>50% balance:</strong> $9,250 AUD on go-live and handover</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>What's Included</h2>
+                <div class="info-card">
+                    <ul>
+                        <li>Full design and development of all 6 modules (Hotel, Online Ordering, Table Booking, Shuttle, CRM, Website)</li>
+                        <li>Role-based admin portal with full team permission management</li>
+                        <li>Automated email confirmations for all booking types</li>
+                        <li>Card tokenisation for hotel bookings and online orders</li>
+                        <li>6 months of post-launch management, updates, and support</li>
+                        <li>Team training and full handover documentation</li>
+                        <li>Deployment to staging (tradecoasthotel.com) and production (tradecoasthotel.com.au)</li>
+                    </ul>
+                </div>
+            </div>
+            <span class="page-number">05</span>
+        </div>
+    </div>
+
+    <!-- PAGE 6: AGREEMENT -->
+    <div class="page">
+        <div class="accent-bar"></div>
+        <div class="page-inner">
+            <div class="page-header">
+                <img src="dynamiccode-logo.svg" alt="Dynamic Code" class="page-header-logo">
+                <span class="page-header-title">Trade Coast Hotel × Dynamic Code</span>
+            </div>
+            <h1>Agreement</h1>
+            <div class="section">
+                <p>By signing below, you agree to the development of the Integrated Venue Management System and Website for Trade Coast Hotel as outlined in this proposal, at a total investment of <strong>$18,500 AUD</strong>, inclusive of 6 months post-launch management.</p>
+            </div>
+            <div class="signature-section">
+                <h3>Client Signature</h3>
+                <div class="signature-canvas-wrapper">
+                    <div id="signaturePlaceholder" class="signature-placeholder">Click "Start Signing" below to sign this proposal</div>
+                    <canvas id="signatureCanvas" style="display: none;"></canvas>
+                </div>
+                <div class="signature-buttons">
+                    <button class="btn btn-primary" onclick="startSigning()">Start Signing</button>
+                    <button class="btn btn-secondary" onclick="clearSignature()" style="display: none;" id="clearBtn">Clear</button>
+                    <button class="btn btn-primary" onclick="saveSignature()" style="display: none;" id="saveBtn">Save Signature</button>
+                </div>
+                <div class="signature-info">
+                    <p><strong>Name:</strong> <span id="sigName"></span></p>
+                    <p><strong>Company:</strong> <span id="sigCompany">Trade Coast Hotel — Value Liquor Group</span></p>
+                    <p><strong>Date:</strong> <span id="sigDate"></span></p>
+                </div>
+            </div>
+            <div class="section" style="margin-top: 8mm;">
+                <h3>Terms & Conditions</h3>
+                <div class="info-card">
+                    <ul style="font-size: 9pt;">
+                        <li>Project commences upon receipt of 50% deposit ($9,250 AUD)</li>
+                        <li>Balance of $9,250 AUD due on go-live and completion of handover</li>
+                        <li>6 months of management and updates included from go-live date</li>
+                        <li>After 6 months, the system is self-managed. Ongoing support can be negotiated separately</li>
+                        <li>Full source code and IP transferred to client upon final payment</li>
+                        <li>Dynamic Code retains the right to reference the project in portfolio</li>
+                        <li>Client responsible for ongoing hosting, payment processing, and third-party service costs</li>
+                        <li>Either party may terminate with 14 days written notice; work completed to date will be invoiced</li>
+                    </ul>
+                </div>
+            </div>
+            <span class="page-number">06</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function togglePasswordVisibility() {
+        const input = document.getElementById('passwordInput');
+        const toggle = document.getElementById('passwordToggle');
+        input.type = input.type === 'password' ? 'text' : 'password';
+        toggle.setAttribute('aria-label', input.type === 'password' ? 'Show password' : 'Hide password');
+    }
+
+    const CORRECT_PASSWORD = 'ValueLiquor';
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1468307018715496469/gIi4eszVYBz5lbHPwKU-BILNtUtvCFDE1eqtBNz8NpfP4SsH54R0cbiMEEyZoA4QXYu-';
+
+    function checkPassword() {
+        const input = document.getElementById('passwordInput').value;
+        const error = document.getElementById('passwordError');
+        if (input === CORRECT_PASSWORD) {
+            document.getElementById('passwordScreen').style.display = 'none';
+            document.getElementById('proposalContent').style.display = 'block';
+            if (!localStorage.getItem('proposalViewed_tradecoast')) {
+                localStorage.setItem('proposalViewed_tradecoast', new Date().toISOString());
+                sendWebhook('Proposal Viewed', 'Someone accessed the Trade Coast Hotel proposal');
+            }
+        } else {
+            error.textContent = 'Incorrect password. Please try again.';
+        }
+    }
+
+    document.getElementById('passwordInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkPassword(); });
+
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('currentDate').textContent = dateStr;
+    document.getElementById('sigDate').textContent = dateStr;
+
+    let canvas, ctx, drawing = false;
+    function startSigning() {
+        document.getElementById('signaturePlaceholder').style.display = 'none';
+        document.getElementById('signatureCanvas').style.display = 'block';
+        document.getElementById('clearBtn').style.display = 'inline-block';
+        document.getElementById('saveBtn').style.display = 'inline-block';
+        canvas = document.getElementById('signatureCanvas');
+        ctx = canvas.getContext('2d');
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = 100;
+        ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
+    }
+    function startDrawing(e) { drawing = true; draw(e); }
+    function draw(e) {
+        if (!drawing) return; e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const x = e.touches ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
+        const y = e.touches ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
+        ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
+    }
+    function stopDrawing() { drawing = false; ctx.beginPath(); }
+    function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.beginPath(); }
+    function saveSignature() {
+        localStorage.setItem('proposalSignature_tradecoast', canvas.toDataURL());
+        alert('Signature saved! Thank you for your agreement.');
+        sendWebhook('Proposal Signed', 'Trade Coast Hotel proposal has been signed');
+    }
+    function sendWebhook(action, description) {
+        fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [{ title: `Trade Coast Hotel - ${action}`, description, color: 0x2D4A6B, fields: [{ name: 'Client', value: 'Trade Coast Hotel / Value Liquor Group', inline: true }, { name: 'Project', value: 'Integrated Venue Management System', inline: true }, { name: 'Investment', value: '$18,500 AUD', inline: true }], timestamp: new Date().toISOString() }] }) }).catch(() => {});
+    }
+</script>
+</body>
+</html>
